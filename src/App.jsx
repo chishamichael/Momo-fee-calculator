@@ -14,7 +14,6 @@ function App() {
       { max: 5000, fee: 15 },
       { max: Infinity, fee: 20 },
     ],
-
     Airtel: [
       { max: 100, fee: 3 },
       { max: 500, fee: 6 },
@@ -22,7 +21,6 @@ function App() {
       { max: 5000, fee: 16 },
       { max: Infinity, fee: 22 },
     ],
-
     Zamtel: [
       { max: 100, fee: 2 },
       { max: 500, fee: 4 },
@@ -32,7 +30,11 @@ function App() {
     ],
   };
 
-  const networks = ["MTN", "Airtel", "Zamtel"];
+  const networks = [
+    { name: "MTN", logo: "MTN" },
+    { name: "Airtel", logo: "airtel" },
+    { name: "Zamtel", logo: "Zamtel" },
+  ];
 
   const getFee = () => {
     const numericAmount = Number(amount);
@@ -57,89 +59,108 @@ function App() {
   const total = Number(amount) + fee;
 
   return (
-    <div className="app">
+    <div className={`app ${selectedNetwork.toLowerCase()}`}>
       <div className="calculator-card">
-        <h1>Welcome to Mobile Money</h1>
+        <div className="card-content">
+          <h1>Welcome to Mobile Money</h1>
+          <p className="subtitle">Choose your network to get started</p>
 
-        <h2>Choose your network</h2>
+          <div className="network-list">
+            {networks.map((network) => (
+              <button
+                key={network.name}
+                className={`network-button ${
+                  selectedNetwork === network.name ? "selected" : ""
+                }`}
+                onClick={() => handleNetworkChange(network.name)}
+              >
+                <span className={`network-logo ${network.name.toLowerCase()}`}>
+                  {network.logo}
+                </span>
 
-        <div className="network-list">
-          {networks.map((network) => (
-            <button
-              key={network}
-              className={`network-button ${
-                selectedNetwork === network ? "selected" : ""
-              }`}
-              onClick={() => handleNetworkChange(network)}
-            >
-              {network}
-            </button>
-          ))}
-        </div>
+                <span>{network.name}</span>
 
-        {selectedNetwork && (
-          <div className="calculator-section">
-            <p className="selected-message">
-              {selectedNetwork} selected ✓
-            </p>
-
-            <label htmlFor="amount">Enter amount</label>
-
-            <input
-              id="amount"
-              type="number"
-              min="0"
-              placeholder="Enter amount"
-              value={amount}
-              onChange={(event) => setAmount(event.target.value)}
-            />
-
-            {amount && Number(amount) > 0 && (
-              <div className="results">
-                <div className="result-row">
-                  <span>Transaction Fee</span>
-                  <strong>ZMW {fee.toFixed(2)}</strong>
-                </div>
-
-                <div className="result-row total-row">
-                  <span>Total</span>
-                  <strong>ZMW {total.toFixed(2)}</strong>
-                </div>
-              </div>
-            )}
-
-            <button
-              className="fee-structure-button"
-              onClick={() => setShowFeeStructure(!showFeeStructure)}
-            >
-              <span>{selectedNetwork} Fee Structure</span>
-              <span>{showFeeStructure ? "▲" : "▼"}</span>
-            </button>
-
-            {showFeeStructure && (
-              <div className="fee-structure">
-                {feeRanges[selectedNetwork].map((range, index) => {
-                  const previousMax =
-                    index === 0
-                      ? 0
-                      : feeRanges[selectedNetwork][index - 1].max;
-
-                  const rangeLabel =
-                    range.max === Infinity
-                      ? `ZMW ${previousMax + 1}+`
-                      : `ZMW ${previousMax + 1}–${range.max}`;
-
-                  return (
-                    <div className="fee-row" key={index}>
-                      <span>{rangeLabel}</span>
-                      <strong>ZMW {range.fee.toFixed(2)}</strong>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
+                {selectedNetwork === network.name && (
+                  <span className="check">✓</span>
+                )}
+              </button>
+            ))}
           </div>
-        )}
+
+          {selectedNetwork && (
+            <div className="calculator-section">
+              <div className="selected-header">
+                <span className="small-logo">
+                  {selectedNetwork === "MTN"
+                    ? "MTN"
+                    : selectedNetwork === "Airtel"
+                    ? "airtel"
+                    : "Zamtel"}
+                </span>
+                <span>{selectedNetwork} Mobile Money</span>
+              </div>
+
+              <label htmlFor="amount">Enter amount</label>
+
+              <div className="amount-input">
+                <span>ZMW</span>
+                <input
+                  id="amount"
+                  type="number"
+                  min="0"
+                  placeholder="0.00"
+                  value={amount}
+                  onChange={(event) => setAmount(event.target.value)}
+                />
+              </div>
+
+              {amount && Number(amount) > 0 && (
+                <div className="results">
+                  <div className="result-row">
+                    <span>Transaction Fee</span>
+                    <strong>ZMW {fee.toFixed(2)}</strong>
+                  </div>
+
+                  <div className="result-row total-row">
+                    <span>Total</span>
+                    <strong>ZMW {total.toFixed(2)}</strong>
+                  </div>
+                </div>
+              )}
+
+              <button
+                className="fee-structure-button"
+                onClick={() => setShowFeeStructure(!showFeeStructure)}
+              >
+                <span>{selectedNetwork} Fee Structure</span>
+                <span>{showFeeStructure ? "▲" : "▼"}</span>
+              </button>
+
+              {showFeeStructure && (
+                <div className="fee-structure">
+                  {feeRanges[selectedNetwork].map((range, index) => {
+                    const previousMax =
+                      index === 0
+                        ? 0
+                        : feeRanges[selectedNetwork][index - 1].max;
+
+                    const rangeLabel =
+                      range.max === Infinity
+                        ? `ZMW ${previousMax + 1}+`
+                        : `ZMW ${previousMax + 1}–${range.max}`;
+
+                    return (
+                      <div className="fee-row" key={index}>
+                        <span>{rangeLabel}</span>
+                        <strong>ZMW {range.fee.toFixed(2)}</strong>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

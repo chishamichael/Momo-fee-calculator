@@ -1,31 +1,45 @@
+* {
+  box-sizing: border-box;
+}
+
 .app {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
-  background: #f4f7fb;
+  padding: 25px;
+  background: #f3f4f6;
+  transition: background 0.3s ease;
 }
 
 .calculator-card {
   width: 100%;
-  max-width: 500px;
+  max-width: 520px;
+  padding: 8px;
+  border-radius: 24px;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-content {
   background: white;
-  padding: 40px;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  text-align: center;
+  border-radius: 18px;
+  padding: 35px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
 }
 
 h1 {
-  margin-bottom: 35px;
-  font-size: 32px;
+  margin: 0;
+  font-size: 30px;
+  text-align: center;
 }
 
-h2 {
-  font-size: 20px;
-  margin-bottom: 20px;
+.subtitle {
+  margin: 10px 0 30px;
+  text-align: center;
+  color: #6b7280;
 }
+
+/* Network buttons */
 
 .network-list {
   display: flex;
@@ -35,36 +49,95 @@ h2 {
 
 .network-button {
   width: 100%;
-  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 16px;
   border: 2px solid #e5e7eb;
-  border-radius: 10px;
+  border-radius: 12px;
   background: white;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: 0.2s;
-}
-
-.network-button:hover {
-  border-color: #333;
-  transform: translateY(-1px);
-}
-
-.network-button.selected {
-  background: #111827;
-  color: white;
-  border-color: #111827;
-}
-
-.calculator-section {
-  margin-top: 30px;
+  transition: 0.2s ease;
   text-align: left;
 }
 
-.selected-message {
-  text-align: center;
-  font-weight: 600;
+.network-button:hover {
+  transform: translateY(-2px);
+  border-color: #9ca3af;
+}
+
+.network-button.selected {
+  color: white;
+}
+
+.check {
+  margin-left: auto;
+  font-size: 20px;
+}
+
+/* Logo-style marks */
+
+.network-logo {
+  width: 46px;
+  height: 46px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  font-weight: 800;
+  font-size: 13px;
+}
+
+.network-logo.mtn {
+  background: #ffcc00;
+  color: #111;
+  border-radius: 50%;
+}
+
+.network-logo.airtel {
+  background: #e60000;
+  color: white;
+  border-radius: 50%;
+  font-size: 11px;
+}
+
+.network-logo.zamtel {
+  background: #009639;
+  color: white;
+  border-radius: 10px;
+  font-size: 11px;
+}
+
+/* Main calculator */
+
+.calculator-section {
+  margin-top: 25px;
+  padding: 22px;
+  border-radius: 15px;
+  background: white;
+}
+
+.selected-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   margin-bottom: 25px;
+  font-weight: 700;
+  font-size: 17px;
+}
+
+.small-logo {
+  min-width: 42px;
+  height: 42px;
+  padding: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 800;
 }
 
 label {
@@ -73,42 +146,56 @@ label {
   font-weight: 600;
 }
 
+.amount-input {
+  display: flex;
+  align-items: center;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  background: white;
+  overflow: hidden;
+}
+
+.amount-input span {
+  padding-left: 14px;
+  font-weight: 700;
+  color: #6b7280;
+}
+
 input {
   width: 100%;
   padding: 14px;
-  border: 2px solid #e5e7eb;
-  border-radius: 10px;
-  font-size: 16px;
+  border: none;
   outline: none;
+  font-size: 17px;
 }
 
-input:focus {
-  border-color: #111827;
-}
+/* Results */
 
 .results {
-  margin-top: 25px;
-  padding: 20px;
-  background: #f4f7fb;
+  margin-top: 20px;
+  padding: 18px;
   border-radius: 12px;
+  background: #f8fafc;
 }
 
 .result-row {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 15px;
+  margin-bottom: 14px;
 }
 
 .total-row {
   margin-bottom: 0;
-  padding-top: 15px;
+  padding-top: 14px;
   border-top: 1px solid #ddd;
   font-size: 18px;
 }
 
+/* Fee structure */
+
 .fee-structure-button {
   width: 100%;
-  margin-top: 20px;
+  margin-top: 18px;
   padding: 15px;
   display: flex;
   justify-content: space-between;
@@ -116,22 +203,20 @@ input:focus {
   border: 2px solid #e5e7eb;
   border-radius: 10px;
   background: white;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  transition: 0.2s;
 }
 
 .fee-structure-button:hover {
-  border-color: #111827;
   background: #f9fafb;
 }
 
 .fee-structure {
-  margin-top: 10px;
-  padding: 15px 20px;
-  background: #f9fafb;
+  margin-top: 8px;
+  padding: 15px;
   border-radius: 10px;
+  background: #f8fafc;
 }
 
 .fee-row {
@@ -145,6 +230,89 @@ input:focus {
   border-bottom: none;
 }
 
-.fee-row strong {
-  font-weight: 600;
+/* =========================
+   MTN THEME
+========================= */
+
+.app.mtn {
+  background: #fff8cc;
+}
+
+.app.mtn .calculator-card {
+  background: #ffcc00;
+}
+
+.app.mtn .network-button.selected {
+  background: #ffcc00;
+  border-color: #ffcc00;
+  color: #111;
+}
+
+.app.mtn .small-logo {
+  background: #ffcc00;
+  color: #111;
+}
+
+/* =========================
+   AIRTEL THEME
+========================= */
+
+.app.airtel {
+  background: #ffe5e5;
+}
+
+.app.airtel .calculator-card {
+  background: #e60000;
+}
+
+.app.airtel .network-button.selected {
+  background: #e60000;
+  border-color: #e60000;
+}
+
+.app.airtel .small-logo {
+  background: #e60000;
+  color: white;
+}
+
+/* =========================
+   ZAMTEL THEME
+========================= */
+
+.app.zamtel {
+  background: #e5f7e9;
+}
+
+.app.zamtel .calculator-card {
+  background: #009639;
+}
+
+.app.zamtel .network-button.selected {
+  background: #009639;
+  border-color: #009639;
+}
+
+.app.zamtel .small-logo {
+  background: #009639;
+  color: white;
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+  .app {
+    padding: 12px;
+  }
+
+  .calculator-card {
+    padding: 5px;
+  }
+
+  .card-content {
+    padding: 25px 20px;
+  }
+
+  h1 {
+    font-size: 25px;
+  }
 }
