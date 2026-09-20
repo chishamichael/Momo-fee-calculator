@@ -4,6 +4,7 @@ import "./App.css";
 function App() {
   const [selectedNetwork, setSelectedNetwork] = useState("");
   const [amount, setAmount] = useState("");
+  const [showFeeStructure, setShowFeeStructure] = useState(false);
 
   const feeRanges = {
     MTN: [
@@ -47,6 +48,11 @@ function App() {
     return range ? range.fee : 0;
   };
 
+  const handleNetworkChange = (network) => {
+    setSelectedNetwork(network);
+    setShowFeeStructure(false);
+  };
+
   const fee = getFee();
   const total = Number(amount) + fee;
 
@@ -64,7 +70,7 @@ function App() {
               className={`network-button ${
                 selectedNetwork === network ? "selected" : ""
               }`}
-              onClick={() => setSelectedNetwork(network)}
+              onClick={() => handleNetworkChange(network)}
             >
               {network}
             </button>
@@ -99,6 +105,37 @@ function App() {
                   <span>Total</span>
                   <strong>ZMW {total.toFixed(2)}</strong>
                 </div>
+              </div>
+            )}
+
+            <button
+              className="fee-structure-button"
+              onClick={() => setShowFeeStructure(!showFeeStructure)}
+            >
+              <span>{selectedNetwork} Fee Structure</span>
+              <span>{showFeeStructure ? "▲" : "▼"}</span>
+            </button>
+
+            {showFeeStructure && (
+              <div className="fee-structure">
+                {feeRanges[selectedNetwork].map((range, index) => {
+                  const previousMax =
+                    index === 0
+                      ? 0
+                      : feeRanges[selectedNetwork][index - 1].max;
+
+                  const rangeLabel =
+                    range.max === Infinity
+                      ? `ZMW ${previousMax + 1}+`
+                      : `ZMW ${previousMax + 1}–${range.max}`;
+
+                  return (
+                    <div className="fee-row" key={index}>
+                      <span>{rangeLabel}</span>
+                      <strong>ZMW {range.fee.toFixed(2)}</strong>
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>
