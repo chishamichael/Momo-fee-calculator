@@ -27,4 +27,4 @@ A simple React-based Mobile Money Fee Calculator for calculating transaction fee
 ### 1. Clone the repository
 
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
+git clone https://github.com/chishamichael/Momo-fee-calculator.git
