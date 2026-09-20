@@ -28,3 +28,21 @@ A simple React-based Mobile Money Fee Calculator for calculating transaction fee
 
 ```bash
 git clone https://github.com/chishamichael/Momo-fee-calculator.git
+
+### 2. Open the project
+
+cd Momo-fee-calculator
+
+### 3. Install dependencies
+
+npm install
+
+### 4. Start the development server
+
+npm run dev
+
+### 5. Open the app
+
+After running `npm run dev`, Vite will display a local URL in the terminal, usually:
+
+http://localhost:5173/
