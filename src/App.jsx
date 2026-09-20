@@ -39,7 +39,7 @@ function App() {
   const getFee = () => {
     const numericAmount = Number(amount);
 
-    if (!selectedNetwork || numericAmount <= 0) {
+    if (!selectedNetwork || !Number.isFinite(numericAmount) || numericAmount <= 0) {
       return 0;
     }
 
@@ -53,10 +53,25 @@ function App() {
   const handleNetworkChange = (network) => {
     setSelectedNetwork(network);
     setShowFeeStructure(false);
+    setAmount("");
+  };
+
+  const handleAmountChange = (event) => {
+    const value = event.target.value;
+
+    if (value === "" || Number(value) >= 0) {
+      setAmount(value);
+    }
   };
 
   const fee = getFee();
-  const total = Number(amount) + fee;
+  const numericAmount = Number(amount);
+  const hasValidAmount =
+    amount !== "" &&
+    Number.isFinite(numericAmount) &&
+    numericAmount > 0;
+
+  const total = hasValidAmount ? numericAmount + fee : 0;
 
   return (
     <div className={`app ${selectedNetwork.toLowerCase()}`}>
@@ -74,7 +89,9 @@ function App() {
                 }`}
                 onClick={() => handleNetworkChange(network.name)}
               >
-                <span className={`network-logo ${network.name.toLowerCase()}`}>
+                <span
+                  className={`network-logo ${network.name.toLowerCase()}`}
+                >
                   {network.logo}
                 </span>
 
@@ -97,6 +114,7 @@ function App() {
                     ? "airtel"
                     : "Zamtel"}
                 </span>
+
                 <span>{selectedNetwork} Mobile Money</span>
               </div>
 
@@ -104,17 +122,25 @@ function App() {
 
               <div className="amount-input">
                 <span>ZMW</span>
+
                 <input
                   id="amount"
                   type="number"
                   min="0"
+                  step="0.01"
                   placeholder="0.00"
                   value={amount}
-                  onChange={(event) => setAmount(event.target.value)}
+                  onChange={handleAmountChange}
                 />
               </div>
 
-              {amount && Number(amount) > 0 && (
+              {amount !== "" && !hasValidAmount && (
+                <p className="error-message">
+                  Please enter an amount greater than 0.
+                </p>
+              )}
+
+              {hasValidAmount && (
                 <div className="results">
                   <div className="result-row">
                     <span>Transaction Fee</span>
